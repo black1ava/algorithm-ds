@@ -1,6 +1,9 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdbool.h>
+#include<limits.h>
+
+#define EMPTY INT_MIN
 
 typedef struct Stack{
 	int top;
@@ -36,13 +39,18 @@ void stack_push(Stack *stack, int n){
 	stack->node[stack->top] = n;
 }
 
-void stack_pop(Stack *stack){
-	if(isEmpty(stack)){
-		printf("Stack is empty\n");
-		return;
+int stack_pop(Stack *stack){
+	if(!isEmpty(stack)){
+		int n = stack->node[stack->top];
+		stack->top--;
+		return n;
 	}
+	
+	return EMPTY;
+}
 
-	stack->top--;
+int peek(Stack *stack){
+	return stack->node[stack->top];
 }
 
 void s_print(Stack *stack){
@@ -59,11 +67,17 @@ void s_print(Stack *stack){
 }
 
 int main(){
-	Stack *stack = stack_new(10);
-	for(int i = 1; i <= 10; i++){
-		stack_push(stack, i);
+	Stack *stack = stack_new(20);
+
+	int number = 25;
+
+	while(number > 0){
+		stack_push(stack, number % 2);
+		number /= 2;
 	}
-	stack_pop(stack);
-	s_print(stack);
+
+	while(!isEmpty(stack)){
+		printf("%d", stack_pop(stack));
+	}
 	return 0;
 }

@@ -29,13 +29,14 @@ namespace Stack {
 			Console.WriteLine("Stack is full");
 		}
 
-		public void pop(){
-			if(this.isEmpty()){
-				Console.WriteLine("Stack is empty");
-				return;
+		public T pop(){
+			if(!this.isEmpty()){
+				T n = this.stack[this.top];
+				this.top--;
+				return n;
 			}
 
-			this.top--;
+			return (T)(object)Int32.MinValue;
 		}
 
 		public void printStack(){
@@ -55,12 +56,16 @@ namespace Stack {
 		public static void Main(){
 			Stack<int> stack = new Stack<int>(10);
 
-			for(int i = 1; i <= 10; i++){
-				stack.push(i);
+			int number = 25;
+
+			while(number > 0){
+				stack.push(number % 2);
+				number /= 2;
 			}
 			
-			stack.pop();
-			stack.printStack();
+			while(!stack.isEmpty()){
+				Console.Write(stack.pop());
+			}
 		}
 	}
 }
